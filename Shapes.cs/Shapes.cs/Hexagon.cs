@@ -9,5 +9,6 @@ namespace Shapes.cs
         public int Sides { get; set; }
         public string Name { get; set; }
         public int Corners { get; } = 6;
+        public bool isSym { get; set; }
     }
 }

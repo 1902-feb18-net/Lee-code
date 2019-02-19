@@ -9,7 +9,11 @@ namespace Animals.UI
         {
             var dog = new Dog();
             dog.GoTo("door");
+            dog.SetNoise();
             dog.MakeNoise();
+            dog.Name = "Scotch";
+           
+            Console.WriteLine(dog.Name);
         }
     }
 }

@@ -1,10 +1,10 @@
 using System;
 
-namespace Animals.UI
+namespace Animals.Library
 {
     public class Dog
     {
-        public string Noise = "Bark";
+        public string Noise = "Bark!";
         public void GoTo(string location)
         {
             Console.WriteLine($"Walking to {location}");

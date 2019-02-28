@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace SerializationAndAsync
@@ -29,7 +31,18 @@ namespace SerializationAndAsync
 
             string filename = @"C:\revature\person_data.xml";
 
+            persons = DeserializeFromXMLFromFileAsync(filename).Result;
+
             SerializeAsXMLToFile(filename, persons);
+
+            string filename2 = @"C:\revature\person_data.json";
+
+            string newDate = JsonConvert.SerializeObject(filename2);
+            File.WriteAllTextAsync(filename2, newDate).Wait();
+
+
+            //persons = JsonConvert.DeserializeObject<List<Person>>(File.ReadAllTextAsync(filename2).Result);
+            Console.WriteLine(persons);
         }
 
         public static void SerializeAsXMLToFile(string filename, List<Person> persons)
@@ -53,6 +66,22 @@ namespace SerializationAndAsync
             }
 
             
+        }
+
+        private static async Task<List<Person>> DeserializeFromXMLFromFileAsync(string filename)
+        {
+            var DeSerializer = new XmlSerializer(typeof(List<Person>));
+
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var fileStream = new FileStream(filename, FileMode.Open))
+                {
+                    await fileStream.CopyToAsync(memoryStream);
+                }
+                memoryStream.Position = 0;
+
+                return (List<Person>)DeSerializer.Deserialize(memoryStream);
+            }
         }
     }
 }

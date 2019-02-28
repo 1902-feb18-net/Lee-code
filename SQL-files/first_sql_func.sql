@@ -1,0 +1,13 @@
+CREATE FUNCTION GetInitials (@id INT)
+RETURNS NVARCHAR
+AS
+BEGIN
+	DECLARE @Init NVARCHAR (2)
+	SET @Init = (CONCAT(
+	(SELECT SUBSTRING(
+	(SELECT FirstName FROM Customer WHERE CustomerId = @id), 1,1)),
+	(SELECT SUBSTRING(
+	(SELECT LastName FROM Customer WHERE CustomerId = @id),1,1))))
+	RETURN @Init;
+END
+GO
